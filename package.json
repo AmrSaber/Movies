@@ -1,0 +1,23 @@
+{
+  "name": "check-booking",
+  "version": "1.0.0",
+  "description": "Watch a web page for certain updates",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "env-cmd config/main.env node src/index.js",
+    "dev:watch": "env-cmd config/main.env nodemon src/index.js"
+  },
+  "author": "Amr Saber",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chalk": "^2.4.2",
+    "express": "^4.16.4",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^8.0.2",
+    "nodemon": "^1.18.10"
+  }
+}

@@ -1,0 +1,5 @@
+// the used modules
+node_modules
+
+// the configurations with the env variables
+config
