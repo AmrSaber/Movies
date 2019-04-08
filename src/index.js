@@ -3,6 +3,8 @@ const chalk = require('chalk')
 const app = require('./app')
 const checkBooking = require('./check')
 
+// TODO: Optimize checking to not check when there is nothing to check for
+
 // start checking for bookings
 checkBooking()
 

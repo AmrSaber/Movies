@@ -31,6 +31,12 @@ const removeMail = (mail) => {
 const sendMail = async (emails, title, body) => {
     params = { emails, title, body }
 
+    if (process.env.DEV) {
+        const chalk = require('chalk')
+        console.log(chalk.yellow.inverse(`Send mail`))
+        return
+    }
+
     let url = process.env.MAIL_FORWARD_URL + '?'
 
     Object.keys(params).forEach(key => {

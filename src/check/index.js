@@ -5,6 +5,8 @@ const { getMovies, removeMovie } = require('../common/movies')
 const { sendMail, getMails } = require('../common/mails')
 const { bookLink } = require('../common/constants')
 
+const delay = (process.env.DEV) ? 5 * 1000 : 5 * 60 * 1000
+
 const doCheck = () => {
     setTimeout(
         () => {
@@ -31,7 +33,6 @@ const doCheck = () => {
 
                         removeMovie(id)
                     } else {
-                        doCheck()
                         if (process.env.DEV) {
                             console.log(chalk.yellow(`Can\'t book "${title}"`))
                         }
@@ -43,7 +44,9 @@ const doCheck = () => {
                     }
                 })
             })
-        }, 5 * 1000
+
+            doCheck()
+        }, delay
     )
 }
 
