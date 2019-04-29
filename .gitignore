@@ -1,5 +1,6 @@
 // the used modules
 node_modules
+package-lock.json
 
 // the configurations with the env variables
 config

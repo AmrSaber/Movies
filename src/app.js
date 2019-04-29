@@ -1,17 +1,17 @@
-const express = require('express')
+const express = require('express');
 
-// import routers
-const movieRouter = require('./routers/movie')
-const mailRouter = require('./routers/mail')
+// import booking routers
+const bookingMovieRouter = require('./modules/booking/routers/movie');
+const bookingMailRouter = require('./modules/booking/routers/mail');
 
-const app = express()
+const app = express();
 
 // parsers
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 // use the routers
-app.use('/api/movies', movieRouter)
-app.use('/api/mails/', mailRouter)
+app.use('/api/booking/movies', bookingMovieRouter);
+app.use('/api/booking/mails', bookingMailRouter);
 
-module.exports = app
+module.exports = app;
