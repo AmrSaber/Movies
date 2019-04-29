@@ -8,7 +8,7 @@ const getMovies = async () => {
 }
 
 const addMovie = async (title, id) => {
-    let movie = Movies.find({ title });
+    let movie = await Movies.findOne({ movieId: id });
     if (_.isNil(movie)) movie = await Movies.create({ title, movieId: id });
     return movie;
 }

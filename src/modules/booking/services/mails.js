@@ -8,7 +8,7 @@ const getMails = async () => {
 };
 
 const addMail = async (email) => {
-    let mail = Mails.findOne({ email });
+    let mail = await Mails.findOne({ email });
     if (_.isNil(mail)) mail = await Mails.create({ email });
     return mail;
 };

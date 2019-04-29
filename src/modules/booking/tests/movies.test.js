@@ -55,7 +55,7 @@ describe('Tests movies integration', () => {
             const { status } = response;
             expect(status).toBe(200);
 
-            const addedMovie = Movies.findOne({ movieId: fakeMovie.movieId });
+            const addedMovie = await Movies.findOne({ movieId: fakeMovie.movieId });
             expect(addedMovie).not.toBeNil();
         });
 

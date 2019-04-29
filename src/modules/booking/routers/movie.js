@@ -1,23 +1,24 @@
 const express = require('express');
+const _ = require('lodash');
 
 const auth = require('../../../common/middleware/authentication');
 const { getMovies, addMovie, removeMovie } = require('../services/movies');
 
 const router = new express.Router();
 
-router.post('/', auth, (req, res) => {
+router.post('/', auth, async (req, res) => {
     const missing = [];
     const { title, id } = req.body;
 
-    if (title == undefined) missing.push('title');
-    if (id == undefined) missing.push('id');
+    if (_.isNil(title)) missing.push('title');
+    if (_.isNil(id)) missing.push('id');
     if (missing.length > 0) {
         return res.status(400).send({
             error: `Field(s) '${missing.join(',')}' required.`
         });
     }
 
-    addMovie(title, id);
+    await addMovie(title, id);
     res.send();
 })
 

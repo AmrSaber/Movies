@@ -54,7 +54,7 @@ describe('Tests mails integration', () => {
             const { status } = response;
             expect(status).toBe(200);
 
-            const addedMail = Mails.findOne(fakeMail);
+            const addedMail = await Mails.findOne(fakeMail);
             expect(addedMail).not.toBeNil();
         });
 
