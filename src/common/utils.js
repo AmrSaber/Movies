@@ -1,4 +1,5 @@
 const axios = require('axios');
+const _ = require('lodash');
 
 const sendMail = async (emails, title, body) => {
     params = { emails, title, body };
@@ -12,14 +13,13 @@ const sendMail = async (emails, title, body) => {
     let url = process.env.MAIL_FORWARD_URL + '?';
 
     Object.keys(params).forEach(key => {
-
         const value = params[key];
-        if (typeof value === 'string') {
-            url += `${key}=${value}&`;
-        } else {
+        if (_.isArray(value)) {
             value.forEach(item => {
-                url += `${key}=${item}&`;
+                url += `${key.toString()}=${item.toString()}&`;
             });
+        } else {
+            url += `${key}=${value}&`;
         }
     });
 

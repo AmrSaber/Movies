@@ -42,7 +42,6 @@ const checkMoviesForBooking = async () => {
 
     // create the response
     let title, body;
-    const mailsPromise = getMails();
 
     if (availableMovies.length == 1) {
         const { title: movieTitle, movieId: id } = availableMovies[0];
@@ -63,8 +62,8 @@ const checkMoviesForBooking = async () => {
         body += 'Book them now.';
     }
 
-    
-    mailsPromise.then(mails => sendMail(mails, title, body));
+    const mails = (await getMails()).map(m => m.email);
+    sendMail(mails, title, body);
 }
 
 module.exports = checkMoviesForBooking;
