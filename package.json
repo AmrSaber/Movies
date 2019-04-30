@@ -1,5 +1,5 @@
 {
-  "name": "check-booking",
+  "name": "movies",
   "version": "1.0.0",
   "description": "Watch a web page for certain updates",
   "main": "index.js",
