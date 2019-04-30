@@ -10,7 +10,7 @@ describe('Mail Module - Tests mails integration', () => {
 
     let dbServer;
     // const fakeMail = { address: 'fake.email.address@fake.com', services: SERVICES.map(s => ({ name: s })) };
-    let fakeMailRegex = /^fake\..+@fake.com$/i;
+    let fakeMailRegex = /^mails-fake\..+@fake.com$/i;
 
     beforeAll(async () => {
         // start mongoose connection
@@ -23,7 +23,7 @@ describe('Mail Module - Tests mails integration', () => {
 
     beforeEach(async () => {
         await Mails.create(_.times(4).map(_i => {
-            return { address: `fake.${faker.name.firstName()}@fake.com`, services: SERVICES.map(s => ({ name: s })) };
+            return { address: `mails-fake.${faker.name.firstName()}@fake.com`, services: SERVICES.map(s => ({ name: s })) };
         }));
     });
 
@@ -47,7 +47,7 @@ describe('Mail Module - Tests mails integration', () => {
 
     describe('DELETE /mails/:id', () => {
         test('it deletes a mail successfully', async () => {
-            const mail = await Mails.findOne();
+            const mail = await Mails.findOne({ address: { $regex: fakeMailRegex } });
 
             const response = await request(app)
                 .delete(`/api/mails/${mail._id.toString()}`)
@@ -60,6 +60,18 @@ describe('Mail Module - Tests mails integration', () => {
             const deletedMail = await Mails.findOne({ _id: mail._id });
             expect(deletedMail).toBeNil();
         });
+
+        test('it fails to delete a non-existent mail', async () => {
+            let id = ''
+            _.times(24, () => { id += 1 });
+            const response = await request(app)
+                .delete(`/api/mails/${id}`)
+                .set('Authorization', process.env.PASSWORD);
+
+            const { status } = response;
+            expect(status).toBe(404);
+        });
     });
 
 });
+

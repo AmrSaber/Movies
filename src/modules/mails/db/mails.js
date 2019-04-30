@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 
 const constants = require('../../../common/constants');
 
-const serviceSchema = new mongoose.Schema({
-
-}, {id: false})
-
 const mailsSchema = new mongoose.Schema({
     address: {
         type: String,
@@ -27,6 +23,9 @@ const mailsSchema = new mongoose.Schema({
             },
         }],
         required: true,
+        validate(value) {
+            return (value.length > 0);
+        },
     }
 });
 

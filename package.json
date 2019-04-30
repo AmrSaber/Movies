@@ -8,8 +8,8 @@
     "dev": "env-cmd config/main.env node src/index.js",
     "dev:watch": "env-cmd config/main.env nodemon src/index.js",
     "seed": "env-cmd config/main.env node scripts/seeding/index.js",
-    "test": "env-cmd config/main.env jest --detectOpenHandles --forceExit --logHeapUsage",
-    "test:watch": "env-cmd config/main.env jest --watch --logHeapUsage"
+    "test": "env-cmd config/main.env jest --detectOpenHandles --forceExit --logHeapUsage --runInBand",
+    "test:watch": "env-cmd config/main.env jest --watch --logHeapUsage --runInBand"
   },
   "jest": {
     "testEnvironment": "node",

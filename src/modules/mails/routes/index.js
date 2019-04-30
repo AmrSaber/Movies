@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
     res.json(mails);
 });
 
-router.delete('/:id', expressJoi(mailIdValidation), auth, async (req, res) => {
+router.delete('/:id', auth, expressJoi(mailIdValidation), async (req, res) => {
     const { id } = req.params;
     const mail = await removeMail(id);
 

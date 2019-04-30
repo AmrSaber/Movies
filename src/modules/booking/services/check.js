@@ -5,6 +5,7 @@ const axios = require('axios');
 const { getMovies, removeMovie } = require('./movies');
 const { getMails } = require('../../mails/services');
 const { sendMail } = require('../../mails/utils');
+const { SERVICE_TYPE_BOOKING } = require('../../../common/constants')
 
 const { bookLink, viewLink } = require('../constants');
 
@@ -40,7 +41,6 @@ const checkMoviesForBooking = async () => {
 
     if (availableMovies.length == 0) return;
 
-    // create the response
     let title, body;
 
     if (availableMovies.length == 1) {
@@ -62,7 +62,7 @@ const checkMoviesForBooking = async () => {
         body += 'Book them now.';
     }
 
-    const mails = (await getMails()).map(m => m.address);
+    const mails = (await getMails(SERVICE_TYPE_BOOKING)).map(m => m.address);
     sendMail(mails, title, body);
 }
 

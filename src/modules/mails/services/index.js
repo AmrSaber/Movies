@@ -11,7 +11,7 @@ const getMails = async (service) => {
     return mails.map(mail => mail.toJSON());
 };
 
-const addMail = async (address, serviceType) => {
+const addMail = async ({ address, serviceType }) => {
     let mail = await Mails.findOne({ address });
     if (_.isNil(mail)) {
         mail = new Mails({ address });
@@ -19,7 +19,7 @@ const addMail = async (address, serviceType) => {
     }
 
     if (!mail.services.includes(serviceType)) {
-        mail.services.push(serviceType);
+        mail.services.push({ name: serviceType });
         await mail.save();
     }
 
@@ -27,14 +27,14 @@ const addMail = async (address, serviceType) => {
     return mail;
 };
 
-const removeServiceFromMail = async (id, serviceType) => {
+const removeServiceFromMail = async ({ id, serviceType }) => {
     const mail = await Mails.findOne({ _id: id });
     if (_.isNil(mail)) return;
 
-    mail.services = mail.services.filter(service => service == serviceType);
+    mail.services = mail.services.filter(service => service.name != serviceType);
 
     if (mail.services.length == 0) {
-        await mail.remove;
+        await mail.remove();
     } else {
         await mail.save();
     }
