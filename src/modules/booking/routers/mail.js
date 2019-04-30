@@ -22,8 +22,8 @@ router.post('/', auth, async (req, res) => {
         });
     }
 
-    await addMail(mail);
-    res.send();
+    const addedMail = await addMail(mail);
+    res.json(addedMail);
 });
 
 router.get('/', auth, (req, res) => {
@@ -44,7 +44,7 @@ router.delete('/', auth, async (req, res) => {
     if (removedMail == null) {
         res.status(404).send();
     } else {
-        res.send();
+        res.json(removedMail);
     }
 });
 

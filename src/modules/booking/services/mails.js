@@ -10,11 +10,14 @@ const getMails = async () => {
 const addMail = async (email) => {
     let mail = await Mails.findOne({ email });
     if (_.isNil(mail)) mail = await Mails.create({ email });
+    if (!process.env.DEV) console.log(`Add Mail ${JSON.stringify(mail)}`);
     return mail;
 };
 
 const removeMail = async (email) => {
-    return Mails.findOneAndDelete({ email });
+    const mail = await Mails.findOneAndDelete({ email });
+    if (!process.env.DEV) console.log(`Remove Mail ${JSON.stringify(mail)}`);
+    return mail;
 };
 
 module.exports = {

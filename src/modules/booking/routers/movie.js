@@ -18,8 +18,8 @@ router.post('/', auth, async (req, res) => {
         });
     }
 
-    await addMovie(title, id);
-    res.send();
+    const movie = await addMovie(title, id);
+    res.json(movie);
 })
 
 router.get('/', (req, res) => {
@@ -33,7 +33,7 @@ router.delete('/:id', auth, async (req, res) => {
     if (movie == null) {
         res.status(404).send();
     } else {
-        res.send();
+        res.json(movie);
     }
 })
 

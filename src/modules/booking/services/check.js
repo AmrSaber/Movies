@@ -28,7 +28,7 @@ const checkMoviesForBooking = async () => {
         }
 
         if (canBook) {
-            console.log(chalk.blue(`${(new Date()).toISOString()}:: Can Book "${title}"`));
+            console.log(chalk.blue(`Can Book "${title}"`));
             availableMovies.push(movie);
             removeMovie(id);
         } else {
