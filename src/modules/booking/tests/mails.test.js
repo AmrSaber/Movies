@@ -2,7 +2,7 @@ const _ = require('lodash');
 const faker = require('faker');
 const request = require('supertest');
 
-const Mails = require('../db/models/mails');
+const Mails = require('../../mails/db/mails');
 const app = require('../../../app');
 
 describe('Tests mails integration', () => {
@@ -34,7 +34,7 @@ describe('Tests mails integration', () => {
         test('it gets all mails successfully', async () => {
             const response = await request(app)
                 .get('/api/booking/mails')
-                .set('Authorization', process.env.BOOKING_PASSWORD);
+                .set('Authorization', process.env.PASSWORD);
 
             const { status, body } = response;
             expect(status).toBe(200);
@@ -48,7 +48,7 @@ describe('Tests mails integration', () => {
         test('it adds a new mail successfully', async () => {
             const response = await request(app)
                 .post('/api/booking/mails')
-                .set('Authorization', process.env.BOOKING_PASSWORD)
+                .set('Authorization', process.env.PASSWORD)
                 .send({
                     mail: fakeMail.email
                 });
@@ -65,7 +65,7 @@ describe('Tests mails integration', () => {
 
             const response = await request(app)
                 .post('/api/booking/mails')
-                .set('Authorization', process.env.BOOKING_PASSWORD)
+                .set('Authorization', process.env.PASSWORD)
                 .send({
                     mail: fakeMail.email
                 });
@@ -84,7 +84,7 @@ describe('Tests mails integration', () => {
 
             const response = await request(app)
                 .delete(`/api/booking/mails`)
-                .set('Authorization', process.env.BOOKING_PASSWORD)
+                .set('Authorization', process.env.PASSWORD)
                 .send({
                     mail: email
                 });
@@ -99,7 +99,7 @@ describe('Tests mails integration', () => {
         test('it fails to delete non-existing mail', async () => {
             const response = await request(app)
                 .delete('/api/booking/mails')
-                .set('Authorization', process.env.BOOKING_PASSWORD)
+                .set('Authorization', process.env.PASSWORD)
                 .send({
                     mail: 'non.existing.email@somewhere.com'
                 });

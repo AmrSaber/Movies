@@ -3,8 +3,8 @@ const Promise = require('bluebird');
 const axios = require('axios');
 
 const { getMovies, removeMovie } = require('./movies');
-const { getMails } = require('./mails');
-const { sendMail } = require('../../../common/utils');
+const { getMails } = require('../../mails/services');
+const { sendMail } = require('../../mails/utils');
 
 const { bookLink, viewLink } = require('../constants');
 
@@ -62,7 +62,7 @@ const checkMoviesForBooking = async () => {
         body += 'Book them now.';
     }
 
-    const mails = (await getMails()).map(m => m.email);
+    const mails = (await getMails()).map(m => m.address);
     sendMail(mails, title, body);
 }
 

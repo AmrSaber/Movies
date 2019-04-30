@@ -47,7 +47,7 @@ describe('Tests movies integration', () => {
         test('it adds a new movie successfully', async () => {
             const response = await request(app)
                 .post('/api/booking/movies')
-                .set('Authorization', process.env.BOOKING_PASSWORD)
+                .set('Authorization', process.env.PASSWORD)
                 .send({
                     title: fakeMovie.title,
                     id: fakeMovie.movieId
@@ -65,7 +65,7 @@ describe('Tests movies integration', () => {
 
             const response = await request(app)
                 .post('/api/booking/movies')
-                .set('Authorization', process.env.BOOKING_PASSWORD)
+                .set('Authorization', process.env.PASSWORD)
                 .send({
                     title: fakeMovie.title,
                     id: fakeMovie.movieId
@@ -85,7 +85,7 @@ describe('Tests movies integration', () => {
 
             const response = await request(app)
                 .delete(`/api/booking/movies/${movieId}`)
-                .set('Authorization', process.env.BOOKING_PASSWORD);
+                .set('Authorization', process.env.PASSWORD);
 
             const { status } = response;
             expect(status).toBe(200);
@@ -97,7 +97,7 @@ describe('Tests movies integration', () => {
         test('it fails to delete non-existing movie', async () => {
             const response = await request(app)
                 .delete(`/api/booking/movies/123456789876543`)
-                .set('Authorization', process.env.BOOKING_PASSWORD);
+                .set('Authorization', process.env.PASSWORD);
 
             const { status } = response;
             expect(status).toBe(404);
