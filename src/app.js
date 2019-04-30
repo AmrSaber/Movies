@@ -14,4 +14,6 @@ app.use(express.urlencoded({extended: false}));
 app.use('/api/booking/movies', bookingMovieRouter);
 app.use('/api/booking/mails', bookingMailRouter);
 
+// app.get('/*', (req, res) => res.status(404).send("Endpoint not found"));
+
 module.exports = app;

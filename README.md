@@ -36,9 +36,10 @@ then there are -currently- 6 scripts that can be run:
     2. Provide .env file in the path `project/config/main.env` with the following [environment variables](https://en.wikipedia.org/wiki/Environment_variable) (see a tutorial [here](https://www.twilio.com/blog/working-with-environment-variables-in-node-js-html)):
         - `PORT`: the port number for the server
         - `DEV=true`: used for telling the app that it's running in development mode.
-        - `MONGODB_URL`: the url for connecting mongoose to the local db, should be something like ""mongodb://127.0.0.1:27017/movies".
+        - `MONGODB_URL`: the url for connecting mongoose to the local db, should be something like "mongodb://127.0.0.1:27017/movies".
+        - `BOOKING_PASSWORD`: the `Authorization` header of the endpoints that need authentication is compared against this string.
         - `MAIL_FORWARD_URL` (see next note).
 - The Application depends in sending mails on [google script](https://www.google.com/script/start) that takes the info for the email as a get request and sends the emails, I made this script a couple of years ago (I will link to it if I upload it to github) and it prevents the mail from going into spam like any known service, you should provide your own script for this task and also you may consider editing `/src/common/utils` to fit your choice for email sending service.
 
 ## Final Notes
-Once I'm done with the authorization (I didn't decide how it will be yet) I will leave a link here to my deployed application so anyone can subscribe for the services (modules).
+The project is currently deployed [Here](http://saber-movies.herokuapp.com), thought that's not very useful right now as (almost) all the endpoints need password authentication.

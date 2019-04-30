@@ -1,10 +1,7 @@
 const authenticate = (req, res, next) => {
-    return next()
-    if (req.body.secret == 'authenticate for me') {
-        next()
-    } else {
-        res.status(401).send()
-    }
+    const password = req.header('Authorization');
+    if (password === process.env.BOOKING_PASSWORD) next();
+    else res.status(403).send();
 }
 
-module.exports = authenticate
+module.exports = authenticate;
