@@ -1,6 +1,7 @@
+const _ = require('lodash');
 const chalk = require('chalk');
-const Promise = require('bluebird');
 const axios = require('axios');
+const Promise = require('bluebird');
 
 const { getMovies, removeMovie } = require('./movies');
 const { getMails } = require('../../mails/services');
@@ -15,18 +16,10 @@ const checkMoviesForBooking = async () => {
 
     await Promise.map(movies, async (movie) => {
         const { title, movieId: id } = movie;
-        let canBook;
 
-        try {
-            // if the movie page includes the link for booking then booking is open
-            const response = await axios.get(viewLink + id);
-            canBook = response.data.includes(`/booking/${id}`);
-        } catch (e) {
-            if (process.env.DEV) {
-                console.log(chalk.red(e));
-            }
-            return;
-        }
+        // if the movie page includes the link for booking then booking is open
+        const response = await axios.get(viewLink + id);
+        const canBook = response.data.includes(`/booking/${id}`);
 
         if (canBook) {
             console.log(chalk.blue(`Can Book "${title}"`));
@@ -39,7 +32,11 @@ const checkMoviesForBooking = async () => {
         }
     })
 
-    if (availableMovies.length == 0) return;
+    await notifyWithAvailableMovies(availableMovies);
+}
+
+const notifyWithAvailableMovies = async (availableMovies) => {
+    if (_.isEmpty(availableMovies)) return;
 
     let title, body;
 
@@ -63,7 +60,7 @@ const checkMoviesForBooking = async () => {
     }
 
     const mails = (await getMails(SERVICE_TYPE_BOOKING)).map(m => m.address);
-    sendMail(mails, title, body);
-}
+    await sendMail(mails, title, body);
+};
 
 module.exports = checkMoviesForBooking;

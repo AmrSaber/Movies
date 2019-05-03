@@ -2,6 +2,7 @@ const axios = require('axios');
 const _ = require('lodash');
 
 const sendMail = async (emails, title, body) => {
+    if (_.isEmpty(emails)) return;
     params = { emails, title, body };
 
     if (process.env.DEV) {
@@ -26,7 +27,6 @@ const sendMail = async (emails, title, body) => {
     url = url.substr(0, url.length - 1);
 
     await axios.get(url);
-    return true;
 }
 
 module.exports = {

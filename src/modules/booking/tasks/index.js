@@ -7,7 +7,7 @@ const checkMoviesForBooking = require('../services/check');
 const cronTiming = (process.env.DEV) ? '*/30 * * * * *' : '*/5 * * * *';
 const task = cron.schedule(cronTiming, async () => {
     if (process.env.DEV) {
-        console.log(chalk.magenta.inverse(`Executing task`));
+        console.log(chalk.magenta.inverse(`Executing booking task`));
     }
     checkMoviesForBooking();
 });
