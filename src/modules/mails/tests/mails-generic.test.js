@@ -4,6 +4,7 @@ const request = require('supertest');
 
 const app = require('../../../app');
 const Mails = require('../db/mails');
+const { createUnsubscribeLink } = require('../../../common/utils');
 const { SERVICES, SERVICE_TYPE_BOOKING, SERVICE_TYPE_YTS } = require('../../../common/constants');
 
 describe('Mails Module - Tests generic mails routes integration (using booking service)', () => {
@@ -125,6 +126,26 @@ describe('Mails Module - Tests generic mails routes integration (using booking s
 
             const deletedMail = await Mails.findOne({ _id: existing._id });
             expect(deletedMail).toBeNil();
+        });
+    });
+
+    describe('GET /actions/:secret', () => {
+        test('it unsubscribes mail from service successfully', async () => {
+            const existingMail = await Mails.findOne({ address: { $regex: fakeMailRegex } });
+            existingMail.services = SERVICES.map(s => ({ name: s }));
+            await existingMail.save();
+
+            const service = _.sample(existingMail.services).name;
+            const link = createUnsubscribeLink(existingMail._id.toString(), service);
+
+            const response = await request(app).get(link);
+
+            const { status } = response;
+            expect(status).toBe(200);
+
+            const updatedMail = await Mails.findOne({ _id: existingMail._id });
+            const removedService = updatedMail.services.find(s => s.name == service);
+            expect(removedService).toBeNil();
         });
     });
 

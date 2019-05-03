@@ -27,7 +27,13 @@ const addMail = async ({ address, serviceType }) => {
     return mail;
 };
 
-const removeServiceFromMail = async ({ id, serviceType }) => {
+const getMailId = async (address) => {
+    const mail = await Mails.findOne({ address });
+    if (_.isNil(mail)) return;
+    return mail._id.toString();
+}
+
+const removeServiceFromMail = async (id, serviceType) => {
     const mail = await Mails.findOne({ _id: id });
     if (_.isNil(mail)) return;
 

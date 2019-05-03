@@ -1,7 +1,10 @@
 const express = require('express');
 
-const { SERVICE_TYPE_BOOKING, SERVICE_TYPE_YTS } = require('./common/constants')
-const { createGenericRouterForService } = require('./modules/mails/routes/generic')
+const { SERVICE_TYPE_BOOKING, SERVICE_TYPE_YTS, BASE_API_URL } = require('./common/constants');
+const { createGenericRouterForService } = require('./modules/mails/routes/generic');
+
+// misc
+const miscRouter = require('./misc/router');
 
 // booking module
 const bookingMovieRouter = require('./modules/booking/routes');
@@ -20,10 +23,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // use the routers
-app.use('/api/booking/movies', bookingMovieRouter);
-app.use('/api/booking/mails', bookingMailsRouter);
-app.use('/api/mails', mailsRouter);
-app.use('/api/yts/mails', ytsMailsRouter);
+app.use(`${BASE_API_URL}/booking/movies`, bookingMovieRouter);
+app.use(`${BASE_API_URL}/booking/mails`, bookingMailsRouter);
+app.use(`${BASE_API_URL}/yts/mails`, ytsMailsRouter);
+app.use(`${BASE_API_URL}/mails`, mailsRouter);
+
+// this must be called in the end
+app.use(BASE_API_URL, miscRouter);
 
 // respond for validation error
 app.use((err, req, res, nxt) => {
@@ -38,11 +44,10 @@ app.use((err, req, res, nxt) => {
         query,
     };
 
+    console.log('Validation Error');
     console.log(JSON.stringify(data, null, 2));
 
     res.status(400).send();
-})
-
-// app.get('/*', (req, res) => res.status(404).send("Endpoint not found"));
+});
 
 module.exports = app;
