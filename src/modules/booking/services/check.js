@@ -12,8 +12,9 @@ const { bookLink, viewLink } = require('../constants');
 
 const checkMoviesForBooking = async () => {
     const movies = await getMovies();
-    const availableMovies = [];
+    if (_.isEmpty(movies)) return;
 
+    const availableMovies = [];
     await Promise.map(movies, async (movie) => {
         const { title, movieId: id } = movie;
 
