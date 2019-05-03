@@ -28,7 +28,7 @@ const checkMoviesForBooking = async () => {
             removeMovie(id);
         } else {
             if (process.env.DEV) {
-                console.log(chalk.yellow(`Can\'t book "${title}"`));
+                // console.log(chalk.yellow(`Can\'t book "${title}"`));
             }
         }
     })

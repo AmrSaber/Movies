@@ -1,8 +1,4 @@
-const Promise = require('bluebird')
-
 const Movies = require('../../src/modules/booking/db/models/movies');
-const Mails = require('../../src/modules/mails/db/mails');
-const { SERVICES } = require('../../src/common/constants');
 
 movies = [
     { title: "SHAZAM!", movieId: "2048061" },
@@ -10,9 +6,9 @@ movies = [
     { title: "Spies in Disguise", movieId: "2049130" }
 ];
 
-mail = { address: 'amr.m.saber.mail@gmail.com', services: SERVICES.map(s => ({name: s})) };
+const seedMovies = async () => {
+    await Movies.deleteMany({ movieId: { $in: movies.map(m => m.movieId) } });
+    await Movies.insertMany(movies);
+};
 
-module.exports = [
-    Movies.insertMany(movies, { ordered: false }),
-    Mails.create(mail)
-];
+module.exports = seedMovies();

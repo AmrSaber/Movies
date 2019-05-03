@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 const { Router } = require('express');
 
 const { decrypt } = require('../common/encryption/aes');
@@ -7,7 +8,7 @@ const { removeServiceFromMail } = require('../modules/mails/services')
 
 const router = new Router();
 
-const respondNotFound = (res) => res.status(404).send("Endpoint not found");
+const respondNotFound = (res) => res.status(404).send('Endpoint not found!');
 
 // handle application actions
 router.get('/actions/:secret', async (req, res) => {
@@ -26,14 +27,18 @@ router.get('/actions/:secret', async (req, res) => {
 
     switch (action) {
         case ACTION_UNSUBSCRIBE:
-            const { mailId, service } = data;
-            await removeServiceFromMail(mailId, service);
-            return res.send(`Unsubscribed from ${servicesMap[service]} service successfully`);
+            const { mailId, service, expiresAt } = data;
+            if (moment().valueOf() > expiresAt) return res.status(410).send('Request expired!');
+            
+            const mail = await removeServiceFromMail(mailId, service);
+            if (_.isNil(mail)) return res.status(404).send('Mail not found!');
+            
+            return res.send(`Unsubscribed from ${servicesMap[service]} service successfully.`);
         default:
             return respondNotFound(res);
     }
 });
 
-router.get('/*', (req, res) => respondNotFound(res));
+// router.get('/*', (req, res) => respondNotFound(res));
 
 module.exports = router;
