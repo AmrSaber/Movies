@@ -4,7 +4,7 @@ const expressJoi = require('express-joi-validator');
 
 const auth = require('../../../common/middleware/authentication');
 const { getMails, removeMail } = require('../services');
-const { mailIdValidation } = require('./validation');
+const { idMailValidation } = require('./validation');
 
 const router = new Router();
 
@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
     res.json(mails);
 });
 
-router.delete('/:id', auth, expressJoi(mailIdValidation), async (req, res) => {
+router.delete('/:id', auth, expressJoi(idMailValidation), async (req, res) => {
     const { id } = req.params;
     const mail = await removeMail(id);
 

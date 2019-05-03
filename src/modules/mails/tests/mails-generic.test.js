@@ -2,11 +2,11 @@ const _ = require('lodash');
 const faker = require('faker');
 const request = require('supertest');
 
-const Mails = require('../../mails/db/mails');
 const app = require('../../../app');
+const Mails = require('../db/mails');
 const { SERVICES, SERVICE_TYPE_BOOKING, SERVICE_TYPE_YTS } = require('../../../common/constants');
 
-describe('Booking Module - Tests mails integration', () => {
+describe('Mails Module - Tests generic mails routes integration (using booking service)', () => {
 
     let dbServer;
     const fakeAddress = 'booking-fake.email.address@fake.com';

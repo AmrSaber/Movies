@@ -1,11 +1,17 @@
 const express = require('express');
 
+const { SERVICE_TYPE_BOOKING, SERVICE_TYPE_YTS } = require('./common/constants')
+const { createGenericRouterForService } = require('./modules/mails/routes/generic')
+
 // booking module
-const bookingMovieRouter = require('./modules/booking/routes/movies');
-const bookingMailsRouter = require('./modules/booking/routes/mails');
+const bookingMovieRouter = require('./modules/booking/routes');
 
 // mails module
 const mailsRouter = require('./modules/mails/routes');
+
+// generic mail routers
+const bookingMailsRouter = createGenericRouterForService(SERVICE_TYPE_BOOKING);
+const ytsMailsRouter = createGenericRouterForService(SERVICE_TYPE_YTS);
 
 const app = express();
 
@@ -17,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/booking/movies', bookingMovieRouter);
 app.use('/api/booking/mails', bookingMailsRouter);
 app.use('/api/mails', mailsRouter);
+app.use('/api/yts/mails', ytsMailsRouter);
 
 // respond for validation error
 app.use((err, req, res, nxt) => {
