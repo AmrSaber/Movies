@@ -2,10 +2,6 @@
 This is a `node.js` application (server) dedicated to movies-related automation.  
 Currently it consists of one module but it is planned to have another one; modules are explained below.
 
-The project is currently deployed [Here](http://saber-movies.herokuapp.com), you can use public (open) endpoints to subscribe/unsubscribe to any module.
-
-Simple front end for the application will be available soon.
-
 ## Application's Modules
 This section describes the technical internals of each module.
 
